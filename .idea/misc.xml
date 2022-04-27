@@ -3,7 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1955" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/drawable/av_settings.xml" value="0.1135" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/drawable/ic_animated_security.xml" value="0.1355" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/drawable/ic_animated_settings_24.xml" value="0.1355" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/drawable/ic_baseline_security_24.xml" value="0.1355" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1355" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/layout/activity_auth.xml" value="0.22826086956521738" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/layout/activity_home.xml" value="0.125" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/layout/activity_load.xml" value="0.22826086956521738" />
         <entry key="..\:/Uni/Authenticator/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/layout/activity_splash.xml" value="0.125" />
+        <entry key="..\:/Uni/Authenticator/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1955" />
       </map>
     </option>
   </component>
