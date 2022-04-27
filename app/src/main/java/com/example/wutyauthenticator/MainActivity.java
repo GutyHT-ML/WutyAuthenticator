@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void debug() {
-        if (!NetworkSettings.production) {
+        if (NetworkSettings.debug) {
             binding.etEmail.setText(App.Chad);
             binding.etPw.setText("123");
         }

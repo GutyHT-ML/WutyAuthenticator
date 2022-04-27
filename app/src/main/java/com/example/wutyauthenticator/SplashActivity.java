@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -33,7 +34,9 @@ public class SplashActivity extends AppCompatActivity {
 //        drawable.;
         setContentView(binding.getRoot());
 
-        checkAuth();
+        Handler handler = new Handler();
+        handler.postDelayed(this::checkAuth, 2000);
+
     }
 
     private void checkAuth() {
@@ -50,18 +53,24 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(Call<Models.Response<Models.AccessToken>> call,
                                    Response<Models.Response<Models.AccessToken>> response) {
                 if (response.isSuccessful()) {
+                    app.setValue(App.TOKEN, response.body().data.token);
+                    app.setValue(App.REFRESH_TOKEN, response.body().data.refreshToken);
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                     finish();
                 } else {
                     try {
                         JSONObject object = new JSONObject(response.errorBody().string());
-                        Toast.makeText(app, object.optString("msg", "Error del servidor"),
-                                Toast.LENGTH_SHORT).show();
+                        String msg = object.optString("msg", "");
+                        if (!msg.equals("")) {
+                            Toast.makeText(app, msg,
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
+                        app.logOut();
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     }
                 }

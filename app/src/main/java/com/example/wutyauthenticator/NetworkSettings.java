@@ -29,10 +29,13 @@ import retrofit2.http.POST;
 
 public class NetworkSettings {
     public static final String localUrl = "192.168.100.79:3333";
-    public static final String qaUrl = "";
+    public static final String qaUrl = "api.salutemonte.space";
     public static final String qaProtocol = "https";
     public static final String localProtocol = "http";
-    public static final boolean production = false;
+    public static final String localWS = "ws";
+    public static final String qaWS = "wss";
+    public static final boolean production = true;
+    public static final boolean debug = true;
     public static Retrofit instance;
     public interface AuthServices {
         @POST("app/login")
@@ -61,7 +64,7 @@ public class NetworkSettings {
     }
 
     public static String getWs () {
-        return String.format("ws://%s/ws", production ? qaUrl : localUrl);
+        return String.format("%s://%s/ws", production ? qaWS : localWS, production ? qaUrl : localUrl);
     }
 
     public static Retrofit getInstance(SharedPreferences sharedPreferences) {
@@ -70,11 +73,13 @@ public class NetworkSettings {
                     .build();
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient().newBuilder()
+            OkHttpClient.Builder clientBuilder = new OkHttpClient().newBuilder()
                     .addInterceptor(new AuthInterceptor(sharedPreferences))
-                    .addInterceptor(loggingInterceptor)
-                    .connectionSpecs(Collections.singletonList(spec))
-                    .build();
+                    .addInterceptor(loggingInterceptor);
+            if (!production) {
+                clientBuilder.connectionSpecs(Collections.singletonList(spec));
+            }
+            OkHttpClient client = clientBuilder.build();
             Moshi moshi = new Moshi.Builder()
                     .add(new KotlinJsonAdapterFactory())
                     .build();

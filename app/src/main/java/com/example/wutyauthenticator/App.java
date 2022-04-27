@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -41,13 +42,21 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         socket = Socket.Builder.with(NetworkSettings.getWs()).build();
-        socket.connect();
         app = this;
 
         socket.onEvent(Socket.EVENT_OPEN, new Socket.OnEventListener() {
             @Override
             public void onMessage(String event) {
                 Log.i(TAG, "onMessage: " + event);
+                Toast.makeText(App.this, "Conectado", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        socket.onEvent(Socket.EVENT_RECONNECT_ATTEMPT, new Socket.OnEventListener() {
+            @Override
+            public void onMessage(String event) {
+                Log.i(TAG, "onMessage: " + event);
+                Toast.makeText(App.this, "Reconectando", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -56,6 +65,7 @@ public class App extends Application {
             public void onMessage(String event) {
                 socket.connect();
                 Log.i(TAG, "onMessage: " + event);
+                Toast.makeText(App.this, "Desconectado", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -101,6 +111,7 @@ public class App extends Application {
 
     public void logOut () {
         socket.leave("access:" + String.valueOf(getId()));
+        socket.close();
         getPreferences()
                 .edit()
                 .clear()
@@ -112,7 +123,7 @@ public class App extends Application {
     }
 
     public void join () {
-//        socket.connect();
+        socket.connect();
         if (socket.join(getTopic())) {
             Log.i(TAG, "join: " + socket.getState());
         }
