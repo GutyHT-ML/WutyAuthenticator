@@ -58,7 +58,17 @@
                 android:id="@+id/btn_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/logout"/>
+                android:text="@string/logout"
+                />
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/purple_700"
+                tools:text="@tools:sample/lorem"
+                android:textAlignment="center"
+                />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/admin123"
-                android:inputType="textVisiblePassword"
+                android:inputType="textPassword"
                 android:importantForAutofill="no"
                 />
             <Button

@@ -15,4 +15,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_load">LoadActivity</string>
     <string name="logout">Cerrar sesion</string>
+    <string name="god_bless_us">En dios confiamos porque en esta app no</string>
 </resources>

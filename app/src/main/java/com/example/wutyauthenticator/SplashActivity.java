@@ -36,7 +36,6 @@ public class SplashActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(this::checkAuth, 2000);
-
     }
 
     private void checkAuth() {
@@ -70,7 +69,6 @@ public class SplashActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
-                        app.logOut();
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     }
                 }

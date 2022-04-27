@@ -26,6 +26,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        app.connectionState.observe(this, state -> {
+            binding.tvStatus.setText(state.toString());
+        });
         Log.i(TAG, "setData: " + app.getEmail());
         binding.tvEmail.setText(app.getEmail());
         binding.tvUsername.setText(app.getUsername());

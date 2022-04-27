@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +24,8 @@ public class App extends Application {
     private String TAG = "APP";
 
     private Socket socket;
+
+    public MutableLiveData<Socket.State> connectionState = new MutableLiveData<>();
 
     public static final String USER_ID = "USER_ID";
     public static final String EMAIL = "EMAIL";
@@ -42,6 +45,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         socket = Socket.Builder.with(NetworkSettings.getWs()).build();
+        socket.connect();
         app = this;
 
         socket.onEvent(Socket.EVENT_OPEN, new Socket.OnEventListener() {
@@ -66,6 +70,26 @@ public class App extends Application {
                 socket.connect();
                 Log.i(TAG, "onMessage: " + event);
                 Toast.makeText(App.this, "Desconectado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        socket.setOnChangeStateListener(new Socket.OnStateChangeListener() {
+            @Override
+            public void onChange(Socket.State status) {
+                connectionState.postValue(status);
+                Log.i(TAG, "onChange: " + status);
+                switch (status) {
+                    case CONNECT_ERROR:
+                        Toast.makeText(App.this, "Error al conectar socket",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case RECONNECTING:
+                        Toast.makeText(App.this, "Reconectando socket", Toast.LENGTH_SHORT).show();
+                        break;
+                    case RECONNECT_ATTEMPT:
+                        Toast.makeText(App.this, "Intentando reconectar socket", Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
 
@@ -123,7 +147,7 @@ public class App extends Application {
     }
 
     public void join () {
-        socket.connect();
+//        socket.connect();
         if (socket.join(getTopic())) {
             Log.i(TAG, "join: " + socket.getState());
         }
